@@ -1,14 +1,22 @@
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/ip.h>
 
-// Function to print an error message and exit the program
-void die(const char *msg) {
-    perror(msg);
-    exit(1);
+
+static void msg(const char *msg) {
+    fprintf(stderr, "%s\n", msg);
+}
+
+static void die(const char *msg) {
+    int err = errno;
+    fprintf(stderr, "[%d] %s\n", err, msg);
+    abort();
 }
 
 // Function to handle communication with the client
@@ -17,7 +25,7 @@ static void do_something(int connfd) {
     // Read data from the client
     ssize_t n = read(connfd, rbuf, sizeof(rbuf) - 1);
     if (n < 0) {
-        die("read() error");
+        msg("read() error");
         return;
     }
     printf("client says: %s\n", rbuf);
