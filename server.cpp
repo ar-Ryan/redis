@@ -21,6 +21,7 @@ static void die(const char *msg)
     abort();
 }
 
+// Max message size in one request
 const size_t k_max_msg = 4096;
 
 static int32_t read_full(int fd, char *buf, size_t n)
@@ -30,7 +31,7 @@ static int32_t read_full(int fd, char *buf, size_t n)
         ssize_t rv = read(fd, buf, n);
         if (rv <= 0)
         {
-            return -1; // error, or unexpected EOF
+            return -1; //  -1 for error, 0 for EOF (Closed Connection)
         }
         assert((size_t)rv <= n);
         n -= (size_t)rv;
@@ -67,6 +68,7 @@ static int32_t one_request(int connfd)
         return err;
     }
 
+    // read payload size
     uint32_t len = 0;
     memcpy(&len, rbuf, 4); // assume little endian
     if (len > k_max_msg)
@@ -75,7 +77,7 @@ static int32_t one_request(int connfd)
         return -1;
     }
 
-    // request body
+    // read payload
     err = read_full(connfd, &rbuf[4], len);
     if (err)
     {
@@ -111,12 +113,13 @@ int main()
         die("setsockopt()");
     }
 
-    // bind to an address
+    // Define the address to bind
     struct sockaddr_in addr = {};
     addr.sin_family = AF_INET;
     addr.sin_port = htons(1234);     // port
     addr.sin_addr.s_addr = htonl(0); // wildcard IP 0.0.0.0
 
+    // Bind address to socket handle
     if (bind(fd, (const struct sockaddr *)&addr, sizeof(addr)) < 0)
     {
         die("bind()");
