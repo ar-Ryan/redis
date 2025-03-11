@@ -36,3 +36,7 @@ You can manually compile and run the server and client files, or you can use the
 - `set <key> <value>`: Sets the value for the specified key.
 - `get <key>`: Retrieves the value associated with the specified key.
 - `del <key>`: Deletes the specified key.
+
+
+## Credits
+This project is based on the ["Build Your Own .org"](https://build-your-own.org/redis/) guide book by **James Smith**. It helped me understand low-level socket programming, client-server communication, and building a Redis-like key-value store.
