@@ -5,7 +5,7 @@ A C++ implementation of Redis-like server and client functionality.
 ## 🚧 Project Status
 This project is currently under active development.
 
-## 📋 Environment/Dependencies
+## 📋 Environment and Dependencies
 
 - Ubuntu 24.04.1 or higher
 - CMake 3.10 or higher
@@ -13,9 +13,9 @@ This project is currently under active development.
 
 ## 🚀 Running the Project
 
-To run the project, you can use the provided `run.sh` script. This script will use cmake to build the project and run the server and client executables. 
+You can manually compile and run the server and client files, or you can use the provided `run.sh` script for convenience. Follow the steps below to get started.
 
-### Running the Script in Linux and macOS (Bash)
+### Running the Script on Linux and macOS (Bash)
 
 1. Open a terminal.
 2. Navigate to the project directory.
@@ -23,7 +23,16 @@ To run the project, you can use the provided `run.sh` script. This script will u
     ```bash 
     chmod +x run.sh
     ```
-4. Run the script:
+4. Run the script to build the project and start the server:
     ```bash
     ./run.sh
     ```
+5. Execute the client with the desired command arguments:
+    ```bash
+    ./build/client.exe set key1 hello
+    ```
+
+### Available Commands
+- `set <key> <value>`: Sets the value for the specified key.
+- `get <key>`: Retrieves the value associated with the specified key.
+- `del <key>`: Deletes the specified key.

@@ -26,9 +26,6 @@ if [ $? -eq 0 ]; then
     ./build/server.exe &
     SERVER_PID=$!
 
-    # Run the client executable
-    ./build/client.exe
-
     # Wait for the server process to finish
     wait $SERVER_PID
 else
